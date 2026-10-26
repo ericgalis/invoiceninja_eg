@@ -27,6 +27,7 @@ use App\Http\Controllers\ChartController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientGatewayTokenController;
 use App\Http\Controllers\ClientStatementController;
+use App\Http\Controllers\ClockifyController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CompanyGatewayController;
 use App\Http\Controllers\CompanyLedgerController;
@@ -441,6 +442,10 @@ Route::group(['middleware' => ['throttle:api', 'token_auth', 'valid_json','local
     Route::post('tasks/bulk', [TaskController::class, 'bulk'])->name('tasks.bulk');
     Route::put('tasks/{task}/upload', [TaskController::class, 'upload']);
     Route::post('tasks/sort', [TaskController::class, 'sort']);
+
+    Route::get('clockify/settings', [ClockifyController::class, 'show'])->name('clockify.settings.show');
+    Route::put('clockify/settings', [ClockifyController::class, 'update'])->name('clockify.settings.update');
+    Route::post('clockify/import', [ClockifyController::class, 'import'])->name('clockify.import')->middleware('throttle:10,1');
 
     Route::resource('task_statuses', TaskStatusController::class); // name = (task_statuses. index / create / show / update / destroy / edit
     Route::post('task_statuses/bulk', [TaskStatusController::class, 'bulk'])->name('task_statuses.bulk');

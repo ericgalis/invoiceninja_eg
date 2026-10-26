@@ -65,6 +65,13 @@ class TaskRepository extends BaseRepository
             return $data;
         }
 
+        // Meta that carries no calendar event (e.g. a Clockify key) skips the calendar duplicate guard.
+        if ($meta->calendar_event_id === '') {
+            $data['meta'] = $meta;
+
+            return $data;
+        }
+
         $userId = (int) $task->user_id;
 
         $originalCalendarEventId = $meta->calendar_event_id;

@@ -385,6 +385,7 @@ class Company extends BaseModel
         'smtp_username',
         'smtp_password',
         'quickbooks',
+        'clockify_config',
     ];
 
     protected $casts = [
@@ -400,6 +401,7 @@ class Company extends BaseModel
         'origin_tax_data' => 'object',
         'e_invoice_certificate_passphrase' => EncryptedCast::class,
         'smtp_username' => 'encrypted',
+        'clockify_config' => 'encrypted:array',
         'smtp_password' => 'encrypted',
         'e_invoice' => 'object',
         'quickbooks' => QuickbooksSettings::class,
