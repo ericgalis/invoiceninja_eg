@@ -24,6 +24,7 @@ class TaskMeta implements Arrayable, Castable, JsonSerializable
 {
     public function __construct(
         public string $calendar_event_id = '',
+        public string $clockify_key = '',
     ) {}
 
     /**
@@ -41,6 +42,7 @@ class TaskMeta implements Arrayable, Castable, JsonSerializable
     {
         return new self(
             calendar_event_id: (string) ($data['calendar_event_id'] ?? $data['provider_event_id'] ?? $data['event_id'] ?? ''),
+            clockify_key: (string) ($data['clockify_key'] ?? ''),
         );
     }
 
@@ -49,9 +51,13 @@ class TaskMeta implements Arrayable, Castable, JsonSerializable
      */
     public function toArray(): array
     {
-        return [
-            'calendar_event_id' => $this->calendar_event_id,
-        ];
+        $meta = ['calendar_event_id' => $this->calendar_event_id];
+
+        if ($this->clockify_key !== '') {
+            $meta['clockify_key'] = $this->clockify_key;
+        }
+
+        return $meta;
     }
 
     /**
@@ -64,6 +70,6 @@ class TaskMeta implements Arrayable, Castable, JsonSerializable
 
     public function isEmpty(): bool
     {
-        return $this->calendar_event_id === '';
+        return $this->calendar_event_id === '' && $this->clockify_key === '';
     }
 }

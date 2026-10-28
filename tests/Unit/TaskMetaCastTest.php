@@ -91,4 +91,16 @@ class TaskMetaCastTest extends TestCase
         $this->assertNull($task->getAttributes()['meta']);
     }
 
+    public function testItRoundTripsClockifyKey(): void
+    {
+        $task = new Task();
+        $task->meta = new TaskMeta(clockify_key: 'abc123');
+
+        $stored = json_decode($task->getAttributes()['meta'], true, 512, JSON_THROW_ON_ERROR);
+
+        $this->assertSame('abc123', $stored['clockify_key']);
+        $this->assertSame('abc123', $task->meta->clockify_key);
+        $this->assertSame('', $task->meta->calendar_event_id);
+    }
+
 }
